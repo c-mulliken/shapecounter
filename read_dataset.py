@@ -22,7 +22,7 @@ class ImageDataset(Dataset):
 
     def __getitem__(self, idx):
         image_filename = self.image_filenames[idx]
-        image_path = os.path.join(self.image_dir, f'{image_filename}.png')
+        image_path = os.path.join(self.data_folder, f'{image_filename}.png')
         image = Image.open(image_path).convert('L')
         if self.transform:
             image = self.transform(image)
