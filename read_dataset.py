@@ -26,8 +26,6 @@ class ImageDataset(Dataset):
         image = Image.open(image_path).convert('L')
         if self.transform:
             image = self.transform(image)
-
-        # Get label for the image
         label_tuple = self.labels[image_filename]
         label = 0 if label_tuple[0] > label_tuple[1] else 1
         label = torch.tensor(label)

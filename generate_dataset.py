@@ -4,6 +4,7 @@ import random
 import sys
 import os
 import json
+from tqdm import tqdm
 
 class Square:
     def __init__(self, corner, side):
@@ -15,7 +16,7 @@ class Circle:
         self.center = center
         self.radius = radius
 
-PATH = '/Users/cobymulliken/Desktop/Repositories/shapecounter/dataset/images'
+PATH = '/home/coby/Repositories/shapecounter/dataset/images'
 
 def render(shapes, filename):
     image = Image.new("RGB", (256, 256), "white")
@@ -53,7 +54,7 @@ def create_dataset(num_images,
                    mean_num_shapes, std_num_shapes,
                    mean_prop_circles, std_prop_circles):
     info_dict = {}
-    for i in range(num_images):
+    for i in tqdm(range(num_images)):
         num_shapes = max(int(np.random.normal(mean_num_shapes, std_num_shapes)), 1)
         prop_circles = max(np.random.normal(mean_prop_circles, std_prop_circles), 0)
         num_circles = int(num_shapes * prop_circles)
@@ -64,4 +65,4 @@ def create_dataset(num_images,
     with open("dataset/image_data.json", "w") as f:
         json.dump(info_dict, f)
 
-create_dataset(100, 10, 3, 0.5, 0.2)
+create_dataset(5000, 10, 3, 0.5, 0.2)
