@@ -67,7 +67,8 @@ class ResNet_18(nn.Module):
         x = self.avgpool(x)
         x = x.view(x.shape[0], -1)
         x = self.fc(x)
-        return x 
+        x = F.softmax(x, dim=1)
+        return x
     
     def identity_downsample(self, in_channels, out_channels):
         return nn.Sequential(

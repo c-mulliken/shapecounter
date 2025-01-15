@@ -16,9 +16,9 @@ class Circle:
         self.center = center
         self.radius = radius
 
-PATH = '/home/coby/Repositories/shapecounter/dataset/images'
+# PATH = '/home/coby/Repositories/shapecounter/dataset/images'
 
-def render(shapes, filename):
+def render(shapes, filename, path):
     image = Image.new("RGB", (256, 256), "white")
     draw = ImageDraw.Draw(image)
 
@@ -33,26 +33,27 @@ def render(shapes, filename):
             radius = shape.radius
             draw.ellipse([(x - radius, y - radius), (x + radius, y + radius)], fill="black")
 
-    os.makedirs(PATH, exist_ok=True)
-    image.save(f'{PATH}/{filename}.png')
+    os.makedirs(path, exist_ok=True)
+    image.save(f'{path}/{filename}.png')
 
 def create_shapes(num_circles, num_squares):
     shapes = []
     for i in range(num_circles):
         cent_x = random.randint(0, 256)
         cent_y = random.randint(0, 256)
-        radius = random.randint(2, 20)
+        radius = random.randint(2, 15)
         shapes.append(Circle((cent_x, cent_y), radius))
     for i in range(num_squares):
         corn_x = random.randint(0, 256)
         corn_y = random.randint(0, 256)
-        side = random.randint(2, 30)
+        side = random.randint(2, 20)
         shapes.append(Square((corn_x, corn_y), side))
     return shapes
 
 def create_dataset(num_images,
                    mean_num_shapes, std_num_shapes,
-                   mean_prop_circles, std_prop_circles):
+                   mean_prop_circles, std_prop_circles,
+                   path):
     info_dict = {}
     for i in tqdm(range(num_images)):
         num_shapes = max(int(np.random.normal(mean_num_shapes, std_num_shapes)), 1)
@@ -60,9 +61,9 @@ def create_dataset(num_images,
         num_circles = int(num_shapes * prop_circles)
         num_squares = num_shapes - num_circles
         shapes = create_shapes(num_circles, num_squares)
-        render(shapes, f'image_{i}')
+        render(shapes, f'image_{i}', path)
         info_dict[f'image_{i}'] = (num_circles, num_squares)
-    with open("dataset/image_data.json", "w") as f:
+    with open(f"{path}/image_data.json", "w") as f:
         json.dump(info_dict, f)
 
-create_dataset(5000, 10, 3, 0.5, 0.2)
+# create_dataset(5000, 10, 3, 0.5, 0.2)
