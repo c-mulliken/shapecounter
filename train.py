@@ -15,8 +15,8 @@ MEAN = sys.argv[1]
 
 # HYPERPARAMETERS
 BATCH_SIZE = 64
-LEARNING_RATE = 0.0003
-NUM_EPOCHS = 10
+LEARNING_RATE = 0.0002
+NUM_EPOCHS = 15
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 PATH = f'dataset/density_experiment/dataset_{MEAN}'
 
