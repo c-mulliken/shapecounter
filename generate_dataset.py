@@ -66,4 +66,13 @@ def create_dataset(num_images,
     with open(f"{path}/image_data.json", "w") as f:
         json.dump(info_dict, f)
 
-# create_dataset(5000, 10, 3, 0.5, 0.2)
+def create_discrim_dataset(num_images, num_shapes, margin, path):
+    info_dict = {}
+    for i in tqdm(range(num_images)):
+        num_circles = int(num_shapes / 2 + margin / 2)
+        num_squares = num_shapes - num_circles
+        shapes = create_shapes(num_circles, num_squares)
+        render(shapes, f'image_{i}', path)
+        info_dict[f'image_{i}'] = (num_circles, num_squares)
+    with open(f"{path}/image_data.json", "w") as f:
+        json.dump(info_dict, f)
