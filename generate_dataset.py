@@ -76,3 +76,5 @@ def create_discrim_dataset(num_images, num_shapes, margin, path):
         info_dict[f'image_{i}'] = (num_circles, num_squares)
     with open(f"{path}/image_data.json", "w") as f:
         json.dump(info_dict, f)
+
+# create_dataset(5000, 30, 15, 0.5, 0.25, 'dataset/counting_experiment')
